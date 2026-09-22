@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Opus 5.5 のじょうずな頼み方</title>
+<meta property="og:title" content="Opus 5.5 のじょうずな頼み方">
+<meta property="og:description" content="Anthropic公式ブログの要点を、非エンジニア向けに身近な実例つきでやさしく解説">
+<meta property="og:image" content="https://ryoseiimai.github.io/opus55-guide/card.png">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://ryoseiimai.github.io/opus55-guide/">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Opus 5.5 のじょうずな頼み方">
+<meta name="twitter:description" content="Anthropic公式ブログの要点を、非エンジニア向けに身近な実例つきでやさしく解説">
+<meta name="twitter:image" content="https://ryoseiimai.github.io/opus55-guide/card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=BIZ+UDPGothic:wght@400;700&family=Zen+Kaku+Gothic+New:wght@700;900&display=swap">
+<style>
+:root{
+  --bg:#F5F7F9; --paper:#FFFFFF; --ink:#1B2430; --sub:#56606D; --line:#D9DEE4;
+  --accent:#1F6F8B; --accent-soft:#E3F0F4; --bad:#A4403A; --bad-soft:#F7E9E7; --good:#2F7A4E; --good-soft:#E6F3EA;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#12171D; --paper:#1A2129; --ink:#E6EAEE; --sub:#9AA5B1; --line:#2C3540;
+    --accent:#6FB8D2; --accent-soft:#1D323B; --bad:#E08A82; --bad-soft:#3A2422; --good:#7CC79A; --good-soft:#1F3328;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#12171D; --paper:#1A2129; --ink:#E6EAEE; --sub:#9AA5B1; --line:#2C3540;
+  --accent:#6FB8D2; --accent-soft:#1D323B; --bad:#E08A82; --bad-soft:#3A2422; --good:#7CC79A; --good-soft:#1F3328;
+}
+*{box-sizing:border-box}
+body{
+  background:var(--bg); color:var(--ink);
+  font-family:"BIZ UDPGothic","Hiragino Sans","Yu Gothic",sans-serif;
+  font-size:17px; line-height:1.85;
+  word-break:auto-phrase; line-break:strict; overflow-wrap:anywhere;
+  padding-inline:16px; padding-block:32px 64px;
+}
+.wrap{max-width:760px; margin:0 auto; display:flex; flex-direction:column; gap:40px}
+h1,h2,h3{font-family:"Zen Kaku Gothic New","Hiragino Sans",sans-serif; text-wrap:balance; line-height:1.4; margin:0}
+h1{font-size:clamp(28px,6vw,40px); font-weight:900}
+h2{font-size:clamp(22px,4.4vw,27px); font-weight:900; padding-bottom:10px; border-bottom:2px solid var(--ink)}
+h3{font-size:19px; font-weight:700}
+p{margin:0}
+.lead{color:var(--sub)}
+.eyebrow{font-size:13px; letter-spacing:.08em; color:var(--accent); font-weight:700}
+header{display:flex; flex-direction:column; gap:14px}
+.src{font-size:14px; color:var(--sub)}
+.src a{color:var(--accent)}
+section{display:flex; flex-direction:column; gap:22px}
+.tip{display:flex; flex-direction:column; gap:12px; background:var(--paper); border:1px solid var(--line); border-radius:10px; padding:22px 20px}
+.tip .why{color:var(--sub); font-size:15.5px}
+.ba{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+@media (max-width:560px){.ba{grid-template-columns:1fr}}
+.ba div{border-radius:8px; padding:12px 14px; font-size:15.5px; line-height:1.75}
+.ba .no{background:var(--bad-soft)}
+.ba .ok{background:var(--good-soft)}
+.ba b{display:block; font-size:13px; letter-spacing:.06em; margin-bottom:4px}
+.ba .no b{color:var(--bad)} .ba .ok b{color:var(--good)}
+.three{display:grid; grid-template-columns:repeat(3,1fr); gap:12px}
+@media (max-width:640px){.three{grid-template-columns:1fr}}
+.three div{background:var(--accent-soft); border-radius:10px; padding:16px; display:flex; flex-direction:column; gap:6px}
+.three strong{font-family:"Zen Kaku Gothic New",sans-serif; font-size:18px}
+.three span{font-size:15px; color:var(--sub)}
+.note{font-size:14.5px; color:var(--sub); border-left:3px solid var(--line); padding-left:12px}
+.tbl{overflow-x:auto}
+table{border-collapse:collapse; width:100%; min-width:480px; font-size:15.5px; background:var(--paper)}
+th,td{border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top}
+th{background:var(--accent-soft); white-space:nowrap}
+kbd{font-family:ui-monospace,Menlo,monospace; font-size:.9em; background:var(--accent-soft); padding:1px 6px; border-radius:4px}
+footer{font-size:13.5px; color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div class="eyebrow">やさしい解説</div>
+  <h1>Opus 5.5 のじょうずな頼み方</h1>
+  <p class="lead">Anthropic の公式ブログ「Getting the most out of Opus 5.5」の要点を、プログラミングを知らない人にも伝わるよう、身近なたとえと実例に置きかえてまとめました。</p>
+  <p class="src">元記事（英語）：<a href="https://claude.dev/blog/getting-the-most-out-of-opus-5-5/" target="_blank" rel="noopener">claude.dev/blog/getting-the-most-out-of-opus-5-5</a><br>※全文訳ではなく、内容を要約した解説です。例はこのページ独自のものです。</p>
+</header>
+
+<section>
+  <h2>まず、この3つだけ覚えてください</h2>
+  <p>Opus 5.5 は「優秀で、長時間ひとりで働ける新人」のようなAIです。細かく指示を小分けにするより、仕事をまるごと任せる方が力を発揮します。</p>
+  <div class="three">
+    <div><strong>まとめて渡す</strong><span>仕事は小出しにせず、全体を1回で伝える</span></div>
+    <div><strong>「よく考えて」は不要</strong><span>言わなくても毎回ちゃんと考えてから答える</span></div>
+    <div><strong>終わったら要点から読む</strong><span>「あなたの判断待ち」の部分を最初に確認する</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>1. 頼み方のコツ</h2>
+
+  <div class="tip">
+    <h3>「どうなったら完成か」を先に言う</h3>
+    <p>ゴールと、止まるタイミングを1回のメッセージで伝えます。完成の基準がはっきりしていると、AIは途中で迷わず最後までやり切れます。</p>
+    <div class="ba">
+      <div class="no"><b>あいまい</b>来月の社内イベントの準備をお願い</div>
+      <div class="ok"><b>伝わる</b>来月の社内イベントの準備をお願い。完成＝案内文・当日の進行表・持ち物リストの3点がそろっていること。会場の予約だけは私がやるので、そこに来たら止めて</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>「じっくり考えて」は消してOK</h3>
+    <p>Opus 5.5 はもともと答える前に必ず考えます。わざわざ「よく考えて」と書く必要はありません。元記事では、この一言を消すと答え始めるまでが速くなり、質は落ちなかったと紹介されています。</p>
+    <p class="why">逆に、簡単な質問なら「すぐ答えて」と添えると、さっと返ってきます。</p>
+    <div class="ba">
+      <div class="no"><b>今までのクセ</b>ステップバイステップで慎重に考えて、会議の議事録を要約して</div>
+      <div class="ok"><b>これで十分</b>会議の議事録を要約して。決まったことと、次に誰が何をするかを分けて</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>作業中でも、追加の指示を送っていい</h3>
+    <p>長い作業の途中で「あ、これも」と思ったら、止めずにそのままメッセージを送れます。最初からやり直させるより、ずっと手間が少なく済みます。</p>
+    <div class="ba">
+      <div class="ok" style="grid-column:1/-1"><b>たとえば</b>50社分の取引先リストを整理させている途中で「ついでに、住所が古そうな会社には印をつけておいて」と送る</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>デザインは「使ってほしくないもの」を具体的に</h3>
+    <p>「ありきたりにしないで」のようなぼんやりした言い方より、避けたい見た目を名指しで並べる方がうまくいきます。</p>
+    <div class="ba">
+      <div class="no"><b>ぼんやり</b>AIっぽくない、おしゃれなチラシにして</div>
+      <div class="ok"><b>具体的</b>クリーム色の背景、斜体の強調、丸いボタン、絵文字の見出しは使わないで。色は白黒＋紺1色だけ</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>2. 長い仕事を任せるときのコツ</h2>
+  <p class="note">ここは主に、パソコンで自動作業をさせる「Claude Code」向けの話です。ふだんのチャット利用なら読み飛ばしても大丈夫です。</p>
+
+  <div class="tip">
+    <h3>「いつ止まって聞くか」をルールにしておく</h3>
+    <p>任せっぱなしで困るのは、勝手に大事なものを消されたり、逆に細かいことをいちいち聞かれたりすることです。「自分がいないと進めないときと、消す・上書きするなど取り返しのつかない操作の前だけ聞いて」と、あらかじめ決めておきます。</p>
+    <p class="why">Claude Code では、このルールを <kbd>CLAUDE.md</kbd> という設定メモに書いておけば毎回守ってくれます。危ない操作の確認画面は、念のため有効のままにしておくのがおすすめです。</p>
+  </div>
+
+  <div class="tip">
+    <h3>大きな仕事は「チームで分担」させる</h3>
+    <p>大量の書類チェックのような仕事は、AIに自分の分身（サブエージェント）を何人も立てさせ、手分けして進めさせられます。最後に、それぞれの報告の裏付けを確かめたうえで、表にまとめて提出させるのがコツです。</p>
+    <div class="ba">
+      <div class="ok" style="grid-column:1/-1"><b>たとえば</b>「過去1年分の契約書30本を、担当を分けて読んで。更新日と解約条件を1つの表にまとめて。表に書く前に、原文のどこに書いてあったか必ず確認して」</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>やることリストはファイルに書かせる</h3>
+    <p>長い作業では、会話が長くなるほど前半の内容が圧縮されて薄れていきます。チェックリストを別のファイル（たとえば <kbd>TASKS.md</kbd>）に書かせておけば、AIも人も「どこまで終わったか」をすぐ確認できます。</p>
+  </div>
+</section>
+
+<section>
+  <h2>3. 結果の確かめ方</h2>
+
+  <div class="tip">
+    <h3>最初に「あなた待ち」の部分を読む</h3>
+    <p>長い作業が終わったら、全部を上から読む前に「あなたの判断や承認が必要なこと」だけ先に確認します。そこが止まっていると、他が全部できていても先に進めないからです。</p>
+    <p class="why">報告の形も指定できます。たとえば「最後の報告は『あなた待ち／変えたこと／見つけたこと』の3つに分けて」と決めておくと、毎回読みやすくなります。</p>
+  </div>
+
+  <div class="tip">
+    <h3>出す前に、AIにもう一度チェックさせる</h3>
+    <p>できあがったものを人に出す前に、別の目線でAIに見直させます。Opus 5.5 は見落としが少なく、的外れな指摘も少ないと紹介されています。「全部ダメ出しして」ではなく、「これは止めるべき、という問題だけ、場所つきで」と絞るのがコツです。</p>
+    <div class="ba">
+      <div class="no"><b>指摘が多すぎる</b>この提案書の改善点を全部出して</div>
+      <div class="ok"><b>本当に大事なものだけ</b>この提案書を社長に出す前に、このままでは出せないレベルの問題だけ挙げて。ページ番号も添えて</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>「見つからなかったこと」も書かせる</h3>
+    <p>調べものを頼むときは、「わからなかったことは、わからなかったと書いて」「どこをどう探したかも書いて」と添えます。AIが推測で空白を埋めてしまうのを防げます。</p>
+    <div class="ba">
+      <div class="ok" style="grid-column:1/-1"><b>たとえば</b>「近所の貸会議室を5つ調べて料金を表にして。料金が載っていなかった所は空欄にして『未確認』と書いて。見たサイトも一緒に」</div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>4. チャット（Claude アプリ）での使い方</h2>
+
+  <div class="tip">
+    <h3>グラフや画面はスクショのまま貼る</h3>
+    <p>数字を手で打ち直す必要はありません。Opus 5.5 は図表の読み取りが正確になり、「どこに何があるか」の理解も強くなっています。</p>
+    <div class="ba">
+      <div class="ok" style="grid-column:1/-1"><b>たとえば</b>売上グラフのスクショを貼って「前年より落ちている月はどこ？ 理由の候補も3つ」と聞く</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>長い書類の「食い違い探し」を頼む</h3>
+    <p>数字・日付・名前が途中で食い違っていないかのチェックが得意です。元記事のテストでは、日付と曜日のずれや、グラフと本文で数字が合わない箇所を見つけています。</p>
+    <div class="ba">
+      <div class="ok" style="grid-column:1/-1"><b>たとえば</b>「この40ページの報告書で、同じはずの数字・日付・人名が食い違っている所を全部挙げて」</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>「骨組み」ではなく「完成品」を頼む</h3>
+    <p>「構成案を出して」で止めず、そのまま共有できる表計算ファイルや文書として作ってもらう方が、あとで手直しする量が減ります。</p>
+    <div class="ba">
+      <div class="no"><b>手間が残る</b>来月の予算表の項目案を考えて</div>
+      <div class="ok"><b>すぐ使える</b>来月の予算表をスプレッドシートで作って。合計欄は自動計算にして</div>
+    </div>
+  </div>
+
+  <div class="tip">
+    <h3>長いチャットでは「前の話は決定済み」と伝える</h3>
+    <p>やり取りが長くなると、AIが前の話題を蒸し返すことがあります。「答えが出たものは決定済みとして扱って、今の質問に集中して」と添えると落ち着きます。ただし、長い分析をいっしょに続けている場合は、あえて言わなくて構いません。</p>
+  </div>
+</section>
+
+<section>
+  <h2>5. メッセージが「制限」に引っかかったら</h2>
+  <div class="tip">
+    <p>安全のための仕組みで、まれに質問が引っかかることがあります。そのときの動きは次のとおりです。</p>
+    <div class="tbl"><table>
+      <tr><th>使っている場所</th><th>起きること</th><th>どうすればいい</th></tr>
+      <tr><td>Claude アプリ</td><td>自動で1つ前のモデルに切り替わる</td><td>新しいチャットでやり直せる。設定で「切り替える前に確認」にも変えられる</td></tr>
+      <tr><td>Claude Code</td><td>同じく別モデルに切り替わる</td><td><kbd>/model</kbd> で戻す。誤判定なら <kbd>/feedback</kbd> で報告</td></tr>
+    </table></div>
+    <p class="why">引っかかりやすいのは「あなたの頭の中の考えをそのまま再現して見せて」のような頼み方です。代わりに「理由を3文で説明して」のように形を変えて聞くと通りやすくなります。</p>
+  </div>
+</section>
+
+<section>
+  <h2>6. もっと速く返してほしいとき</h2>
+  <div class="tip">
+    <p>1回ずつ返事を読みながら進める作業なら「ファストモード」が便利です。料金は割高になりますが、返事が速くなります。Claude Code では <kbd>/fast</kbd> で切り替えられます。</p>
+    <p class="why">逆に、まとめて任せて放っておく仕事なら、通常モードで十分です。</p>
+  </div>
+</section>
+
+<section>
+  <h2>まとめ：チェックリスト</h2>
+  <div class="tbl"><table>
+    <tr><th>場面</th><th>やること</th></tr>
+    <tr><td>頼むとき</td><td>完成の基準を書く／「よく考えて」を消す／デザインは避けたいものを名指し</td></tr>
+    <tr><td>長く任せるとき</td><td>止まって聞くルールを決める／分担させる／やることリストをファイルに</td></tr>
+    <tr><td>受け取るとき</td><td>「あなた待ち」から読む／出す前に見直させる／「わからなかった」も書かせる</td></tr>
+    <tr><td>チャットで</td><td>スクショを貼る／食い違い探しに使う／完成品で頼む</td></tr>
+    <tr><td>困ったとき</td><td>制限に引っかかったら聞き方を変える／急ぐならファストモード</td></tr>
+  </table></div>
+</section>
+
+<footer>2026年9月23日作成。元記事の内容を日本語で要約・再構成した解説です。細かい仕様は元記事をご確認ください。</footer>
+</div>
+</body>
+</html>
